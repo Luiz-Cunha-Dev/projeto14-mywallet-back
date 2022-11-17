@@ -1,6 +1,13 @@
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
 import { collectionUsuario, collectionSessao } from "../app.js";
+import joi from "joi";
+
+const cadastroSchema = joi.object({
+    name:joi.string().required().min(3).max(15),
+    email:joi.string().email().required(),
+    password:joi.string().required().min(3).max(20)
+    })
 
 
 export async function signUp(req, res){
@@ -61,3 +68,25 @@ export async function signIn(req, res){
     }
 }
 
+export async function postStatus(req, res){
+    const {authorization} = req.headers;
+    const token = authorization.replace("Bearer", "");
+
+    try{
+        const sessaoExistente = await collectionSessao.findOne({token});
+
+        if(!sessaoExistente){
+            res.sendStatus(404);
+        }
+
+        const sessaoAtualizada = {... sessaoExistente, lastStatus: Date.now()};
+
+        await collectionSessao.updateOne({token},{ $set: sessaoAtualizada });
+
+        res.sendStatus(200);
+
+    } catch(err){
+        res.status(500);
+        console.log(err);
+    }
+}
