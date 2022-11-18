@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
 import { collectionUsuario, collectionSessao } from "../database/db.js";
 import joi from "joi";
-import { ObjectId } from "mongodb";
+
 
 const cadastroSchema = joi.object({
     name:joi.string().required().min(3).max(15),
@@ -78,13 +78,14 @@ export async function signIn(req, res){
 
 export async function postStatus(req, res){
     const {authorization} = req.headers;
-    const token = authorization.replace("Bearer", "");
+    const token = authorization.replace("Bearer ", "");
 
     try{
         const sessaoExistente = await collectionSessao.findOne({token});
 
         if(!sessaoExistente){
             res.sendStatus(404);
+            return
         }
 
         const sessaoAtualizada = {... sessaoExistente, lastStatus: Date.now()};
@@ -98,3 +99,5 @@ export async function postStatus(req, res){
         console.log(err);
     }
 }
+
+
