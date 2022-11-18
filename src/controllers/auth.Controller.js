@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
-import { collectionUsuario, collectionSessao } from "../app.js";
+import { collectionUsuario, collectionSessao } from "../database/db.js";
 import joi from "joi";
+import { ObjectId } from "mongodb";
 
 const cadastroSchema = joi.object({
     name:joi.string().required().min(3).max(15),
@@ -45,6 +46,13 @@ export async function signIn(req, res){
 
     try{
         const usuario =  await collectionUsuario.findOne({email});
+
+        const sessaoExistente = await collectionSessao.findOne({userId: usuario._id});
+
+        if(sessaoExistente){
+            res.status(409).send("Usuario ja logado!")
+            return
+        }
 
         if(usuario && bcrypt.compareSync(password, usuario.password) ){
             const token = uuid();
