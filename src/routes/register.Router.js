@@ -1,4 +1,4 @@
-import { postRegistro , getRegistro} from "../controllers/register.Controller.js"
+import { postRegistro , getRegistro, deleteRegistro} from "../controllers/register.Controller.js"
 import {Router} from "express"
 
 const router = Router();
@@ -6,6 +6,8 @@ const router = Router();
 router.post("/registro", postRegistro);
 
 router.get("/registro", getRegistro);
+
+router.delete("/registro/:id", deleteRegistro);
 
 
 
