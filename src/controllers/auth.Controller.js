@@ -100,4 +100,24 @@ export async function postStatus(req, res){
     }
 }
 
+export async function deleteSessao(req, res){
+    const {authorization} = req.headers;
+    const token = authorization.replace("Bearer ", "");
 
+    try{
+        const sessaoExistente = await collectionSessao.findOne({token});
+
+        if(!sessaoExistente){
+            res.sendStatus(404);
+            return
+        }
+
+        await collectionSessao.deleteOne({token});
+
+        res.sendStatus(200);
+
+    } catch(err){
+        res.status(500);
+        console.log(err);
+    }
+}
