@@ -5,12 +5,12 @@ import joi from "joi";
 const registroSchema = joi.object({
     date:joi.string().required().min(5).max(5),
     title:joi.string().required().min(1).max(20),
-    value:joi.number().required().min(1).max(8)
+    value:joi.number().required()
     })
 
 const atualizarRegistroSchema = joi.object({
     title:joi.string().required().min(1).max(20),
-    value:joi.number().required().min(1).max(8)
+    value:joi.number().required()
 })
 
 
@@ -71,7 +71,7 @@ export async function getRegistro(req, res){
         const sessao = await collectionSessao.findOne({token});
 
         if(!sessao){
-            res.status(404).send("Sessão não encontrada");
+            res.status(404).send(token);
             return;
         }
 

@@ -13,7 +13,7 @@ app.use(registerRouter);
 setInterval(async() => {
     try{
         const sessoes = await collectionSessao.find().toArray();
-        const sessoesInativas = sessoes.filter(s =>  Date.now() - s.lastStatus > 60000);
+        const sessoesInativas = sessoes.filter(s =>  Date.now() - s.lastStatus > 10000);
 
         sessoesInativas.map(async(s) => {
             await collectionSessao.deleteOne({userId: s.userId})
@@ -23,8 +23,8 @@ setInterval(async() => {
     } catch(err){
         console.log(err);
     }
-}, 60000);
+}, 10000);
 
+const port = process.env.PORT || 5000
 
-
-app.listen(5000, () => console.log("Server running in port: 5000"));
+app.listen(port, () => console.log(`Server running in port: ${port}`));
