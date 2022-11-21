@@ -70,7 +70,7 @@ export async function signIn(req, res){
 }
 
 export async function postStatus(req, res){
-    const toke = req.token;
+    const token = req.token;
     const sessaoExistente = req.sessaoExistente;
 
     try{

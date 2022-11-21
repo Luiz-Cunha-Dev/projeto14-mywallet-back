@@ -6,7 +6,7 @@ import { registroSchema, atualizarRegistroSchema } from "../schemas/register.Sch
 export async function postRegistro(req, res){
     const dadosRecebidos = req.body;
     const {date, title, value} = dadosRecebidos;
-    const sessaoExistente = req.sessaoExistente
+    const sessaoExistente = req.sessaoExistente;
 
     try{
         const {error} = registroSchema.validate(dadosRecebidos, {abortEarly: false});
