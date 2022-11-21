@@ -1,4 +1,5 @@
 import { collectionRegistro } from "../database/db.js";
+import { ObjectId } from "mongodb";
 
 export default async function verificaId(req, res, next){
     const {id} = req.params;
@@ -8,7 +9,7 @@ export default async function verificaId(req, res, next){
         return;
     }
 
-    const registro = await collectionRegistro.findOne({_id: ObjectId(id)})
+    const registro = await collectionRegistro.findOne({_id: ObjectId(id)});
 
     if(!registro){
         console.log(registro)
