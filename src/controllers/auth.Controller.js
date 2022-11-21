@@ -63,7 +63,7 @@ export async function signIn(req, res){
                 lastStatus: Date.now()
             });
 
-            res.send(token);
+            res.send({token, name: usuario.name});
         }else if(!usuario){
             res.status(400).send("Email não cadastrado!");
         }else{
