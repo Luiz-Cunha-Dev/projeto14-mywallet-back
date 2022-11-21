@@ -18,6 +18,7 @@ export default async function verificaId(req, res, next){
     }
 
    req.registro = registro;
+   req.id = id
 
     next();
 }

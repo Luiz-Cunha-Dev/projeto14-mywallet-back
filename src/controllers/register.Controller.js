@@ -63,6 +63,7 @@ export async function deleteRegistro(req, res){
 
 export async function putRegistro(req, res){
     const registro = req.registro;
+    const id = req.id;
     const dadosRecebidos = req.body;
     const {value, title} = dadosRecebidos;
 
@@ -75,10 +76,10 @@ export async function putRegistro(req, res){
             return
         }
 
-        const registroAtualizado = {...registro, title:title, value:value}
+        const registroAtualizado = {...registro, title:title, value:value};
 
 
-        await collectionRegistro.updateOne({_id: ObjectId(id)},{$set: registroAtualizado})
+        await collectionRegistro.updateOne({_id: ObjectId(id)},{$set: registroAtualizado});
         
         res.status(201).send("Atualizado com sucesso!");
 
